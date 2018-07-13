@@ -5,18 +5,23 @@ const Nightmare = require('nightmare'),
 nightmare
 //visit the page
 .goto('https://google.com')
-//visit the page
-.wait(2000)
 //wait 2 seconds for page to load
+.wait(2000)
+//search datatables on google
 .type('#lst-ib', 'datatables')
+//click search button
 .click('#mKlEF')
+//wait for the results to load
 .wait('.mw')
-
+//click the first link
 .click('#rso div:nth-child(1) div div div div h3 a')
 .wait('#example_wrapper')
 
+//choose the 100 results option from dropdown menu
 .select('#example_length label select', 100)
 
+
+//make sure to choose right selecctors 
   .evaluate(function(){
     const data = []
     for(n = 0; n < 57; n++) {
