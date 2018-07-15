@@ -1,6 +1,7 @@
 const jquery = require('jquery')
-const Nightmare = require('nightmare'),
-      nightmare = Nightmare()
+const ObjectsToCsv = require('objects-to-csv')
+const Nightmare = require('nightmare')
+const nightmare = Nightmare({ show: false })
 
 nightmare
 //visit the page
@@ -21,7 +22,7 @@ nightmare
 .select('#example_length label select', 100)
 
 
-//make sure to choose right selecctors 
+//make sure to choose right selectors
   .evaluate(function(){
     const data = []
     for(n = 0; n < 57; n++) {
@@ -36,7 +37,10 @@ nightmare
     }
     return data
   })
+  //close the electron process
   .end()
-  .then(function(result){
+  //in order to use the result in the evaluate scope, you need to pass the result in as a promise
+  .then(result=>{
+    new ObjectsToCsv(result).toDisk('./test.csv');
     console.log(result)
   })
